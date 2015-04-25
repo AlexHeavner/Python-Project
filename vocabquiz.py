@@ -6,12 +6,17 @@
 #Print the list of files found. If there aren't files ending in .txt, display an error message and quit.
 import os, inspect, random, datetime, time
 
-def printFiles():
+def getFileList():
 	#directory containing this python file
 	current_directory = os.getcwd()
 
 	#all files in current directory
 	files_in_current_directory = os.listdir(current_directory)
+
+	return files_in_current_directory
+
+def printFiles():
+	files_in_current_directory = getFileList()
 
 	for file in files_in_current_directory:
 		if file[-4:] == '.txt' :
@@ -106,7 +111,7 @@ def writeMissedFile(missed_dictionary):
 	file_writer.close()
 
 #Demo
-
+'''
 print 'Enter which vocab file you would like to use: '
 printFiles()
 file = openFile()
@@ -117,3 +122,4 @@ vocab_dictionary = getShuffledDictionary(vocab_dictionary)
 missed_words = quizUser(vocab_dictionary)
 
 writeMissedFile(missed_words)
+'''
