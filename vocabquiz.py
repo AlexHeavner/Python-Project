@@ -72,20 +72,37 @@ def getKeyByIndex(vocab_dictionary, index):
 			return key
 		count+=1
 
+#6. If the user missed any questions, give the option to output the missed words to a new word list file.
+def quizUser(vocab_dictionary):
+	missed_words = {}
+	num_wrong = 0
+	print 'Enter the corresponding spanish word'
+	
+	for english in vocab_dictionary:
+		print english
+		user_attempt = raw_input()
+		if user_attempt == vocab_dictionary[english]:
+			print 'Correct!'
+		else:
+			print 'Incorrect, press w to save this word'
+			num_wrong+=1
+			if raw_input() == 'w':
+				missed_words[ english ] = vocab_dictionary[english]
+	printScore(num_wrong, len(vocab_dictionary))
+	return missed_words
+
+#7. Print the number of words and scores that the user missed.
+def printScore(num_missed, num_words):
+	print 'You scored ' + str((num_words-num_missed)) + '/' + str(num_words)
+	print 'You missed ' + str(num_missed) + ' words'
+	print 'You scored {0:.2g}%'.format((num_words-num_missed)/num_words))
+
 #Demo
 print 'Enter which vocab file you would like to use: '
 printFiles()
 file = openFile()
 vocab_dictionary = storeVocabWords(file)
-vocab_dictionary = getShuffledDictionary(vocab_dictionary)
-print vocab_dictionary
-for english in vocab_dictionary:
-	print english + ' => ' + vocab_dictionary[english]
-
 num_of_english_words = getNumOfEnglishWords(vocab_dictionary)
+vocab_dictionary = getShuffledDictionary(vocab_dictionary)
 
-print num_of_english_words
-
-
-#6. If the user missed any questions, give the option to output the missed words to a new word list file.
-#7. Print the number of words and scores that the user missed.
+missed_words = quizUser(vocab_dictionary)
