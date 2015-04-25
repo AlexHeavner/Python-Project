@@ -37,20 +37,31 @@ def openFile():
 
 #3. Store the contents of the vocabulary file into a dictionary data structure.
 def storeVocabWords(file):
+	vocab_dictionary = {}
 	for line in file:
-		print line
+		english_and_spanish = line.split()
+		vocab_dictionary[ english_and_spanish[0] ] = english_and_spanish[2]
+	return vocab_dictionary
+
+#4. Print the number of English words in the dictionary.
+def getNumOfEnglishWords(vocab_dictionary):
+	return len(vocab_dictionary)
 
 #Demo
 print 'Enter which vocab file you would like to use: '
 printFiles()
 file = openFile()
-storeVocabWords(file)
+vocab_dictionary = storeVocabWords(file)
+
+for english in vocab_dictionary:
+	print english + ' => ' + vocab_dictionary[english]
+
+num_of_english_words = getNumOfEnglishWords(vocab_dictionary)
+
+print num_of_english_words
 
 
 
-
-#4. Print the number of English words in the dictionary.
 #5. Quiz the user by using a randomly generated list of English words from the dictionary.
-#6. If the user missed any questions, give the option to output the missed words to a new
-#word list file.
+#6. If the user missed any questions, give the option to output the missed words to a new word list file.
 #7. Print the number of words and scores that the user missed.
