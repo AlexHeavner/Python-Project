@@ -9,7 +9,7 @@ def avaliableLibraries():
 	for files in onlyfiles:
 		tokens = files.split(".")
 
-		if tokens[-1] == ".txt":
-			librarie_files.append("files")
+		if tokens[-1] == "txt":
+			librarie_files.append(files)
 
 	return librarie_files
