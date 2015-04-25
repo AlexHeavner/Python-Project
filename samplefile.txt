@@ -1,0 +1,10 @@
+hello = hola
+name = nombre
+day = dia
+crazy = loco
+girl = chica
+family = familia
+soup = sopa
+shoes = zapatos
+red = rojo
+soccer = futbol

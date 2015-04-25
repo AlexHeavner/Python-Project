@@ -6,20 +6,20 @@
 #Print the list of files found. If there aren't files ending in .txt, display an error message and quit.
 import os, inspect
 
-#this python file name
-current_python_file = inspect.getfile(inspect.currentframe())
+def printFiles():
+	#directory containing this python file
+	current_directory = os.getcwd()
 
-#file path of this python file
-current_python_file_path = os.path.abspath(current_python_file)
+	#all files in current directory
+	files_in_current_directory = os.listdir(current_directory)
 
-#directory containing this python file
-vocab_directory = os.path.dirname(current_python_file_path)
-
-
+	for file in files_in_current_directory:
+		if file[-4:] == '.txt' :
+			print file
 
 #2. Have the user select which vocabulary file he or she would like to use. Error check to make sure that they select a valid file (i.e., one of the files listed in step 1).
 
-def getFile():
+def openFile():
 
 	found_file = False
 
@@ -30,15 +30,25 @@ def getFile():
 		try:
 			file_object = open(file_name, 'r')
 			found_file = True
+			return file_object
 		except IOError:
 			print '\'' + file_name + '\' does not exist. Enter a valid file name.'
-
-
-
-
-getFile()
+			printFiles()
 
 #3. Store the contents of the vocabulary file into a dictionary data structure.
+def storeVocabWords(file):
+	for line in file:
+		print line
+
+#Demo
+print 'Enter which vocab file you would like to use: '
+printFiles()
+file = openFile()
+storeVocabWords(file)
+
+
+
+
 #4. Print the number of English words in the dictionary.
 #5. Quiz the user by using a randomly generated list of English words from the dictionary.
 #6. If the user missed any questions, give the option to output the missed words to a new
