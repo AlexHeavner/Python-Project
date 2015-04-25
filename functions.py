@@ -1,8 +1,8 @@
-from os import listdir
+from os import listdir,getcwd
 from os.path import isfile, join
 
 def avaliableLibraries():
-	path = "/home/alexander/Documents/Python/Python Project"
+	path = getcwd()
 	onlyfiles = [ f for f in listdir(path) if isfile(join(path,f)) ]
 
 	librarie_files = []
