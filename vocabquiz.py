@@ -4,7 +4,7 @@
 
 #1. Check if there are any vocabulary files in the directory, which by convention are files that end in .txt. 
 #Print the list of files found. If there aren't files ending in .txt, display an error message and quit.
-import os, inspect, random
+import os, inspect, random, datetime, time
 
 def printFiles():
 	#directory containing this python file
@@ -20,13 +20,9 @@ def printFiles():
 #2. Have the user select which vocabulary file he or she would like to use. Error check to make sure that they select a valid file (i.e., one of the files listed in step 1).
 
 def openFile():
-
 	found_file = False
-
 	while(not found_file):
-
 		file_name = raw_input()
-
 		try:
 			file_object = open(file_name, 'r')
 			found_file = True
@@ -95,9 +91,22 @@ def quizUser(vocab_dictionary):
 def printScore(num_missed, num_words):
 	print 'You scored ' + str((num_words-num_missed)) + '/' + str(num_words)
 	print 'You missed ' + str(num_missed) + ' words'
-	print 'You scored {0:.2g}%'.format((num_words-num_missed)/num_words))
+	print 'You scored {0:.2g}%'.format((num_words-num_missed)/num_words)
+
+#write the missed dictionary to a file with the name missed-'currentdate'_'currenttime'
+def writeMissedFile(missed_dictionary):
+	
+	#save the file as missed and the current date and time
+	file_name = 'missed-' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H:%M:%S') + '.txt'
+
+	file_writer = open(file_name, 'w')
+
+	for english in missed_dictionary:
+		file_writer.write(english + ' = ' + missed_dictionary[english] + '\n')
+	file_writer.close()
 
 #Demo
+
 print 'Enter which vocab file you would like to use: '
 printFiles()
 file = openFile()
@@ -106,3 +115,5 @@ num_of_english_words = getNumOfEnglishWords(vocab_dictionary)
 vocab_dictionary = getShuffledDictionary(vocab_dictionary)
 
 missed_words = quizUser(vocab_dictionary)
+
+writeMissedFile(missed_words)
