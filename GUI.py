@@ -1,4 +1,4 @@
-rom tkinter import *
+from tkinter import *
 from functions import*
 
 class GUI:
@@ -21,7 +21,7 @@ class GUI:
             				value=count).pack(anchor=W)
 				count += 1
 
-			button = Button(root, text='Select', width=25, command=selectAction)
+			button = Button(root, text='Select', width=25, command=self.selectAction)
 			button.pack()
 
 
