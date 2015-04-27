@@ -13,18 +13,22 @@ def getFileList():
 	#all files in current directory
 	files_in_current_directory = os.listdir(current_directory)
 
-	return files_in_current_directory
+	text_files = []
 
+	for file in files_in_current_directory:
+		if file[-4:] == '.txt' :
+			text_files.append(file)
+
+	return text_files
 def printFiles():
 	files_in_current_directory = getFileList()
 
 	for file in files_in_current_directory:
-		if file[-4:] == '.txt' :
-			print file
+		print file
 
 #2. Have the user select which vocabulary file he or she would like to use. Error check to make sure that they select a valid file (i.e., one of the files listed in step 1).
 
-def openFile():
+def openFileTest():
 	found_file = False
 	while(not found_file):
 		file_name = raw_input()
@@ -35,6 +39,11 @@ def openFile():
 		except IOError:
 			print '\'' + file_name + '\' does not exist. Enter a valid file name.'
 			printFiles()
+
+def openFile(file_name):
+	file_object = open(file_name, 'r')
+	found_file = True
+	return file_object
 
 #3. Store the contents of the vocabulary file into a dictionary data structure.
 def storeVocabWords(file):
@@ -114,7 +123,7 @@ def writeMissedFile(missed_dictionary):
 '''
 print 'Enter which vocab file you would like to use: '
 printFiles()
-file = openFile()
+file = openFileTest()
 vocab_dictionary = storeVocabWords(file)
 num_of_english_words = getNumOfEnglishWords(vocab_dictionary)
 vocab_dictionary = getShuffledDictionary(vocab_dictionary)
