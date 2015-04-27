@@ -9,7 +9,9 @@ def buildNoteCard():
 	note_card_message = Message( root, textvariable=note_card_text, relief=RAISED, width = 500, bg='lightgreen', font=('times', 24), padx=250, pady=150 )
 	note_card_message.pack()
 	buildEntry()
-	buildButton()
+	buildButtonSave()
+	buildButtonSkip()
+	buildButtonSubmit()
 
 def buildLabelFileSelected():
 	global file_selected_label
@@ -38,11 +40,23 @@ def buildEntry():
 	entry = Entry(root, bd =5)
 	entry.pack(side=BOTTOM)
 
-def buildButton():
+def buildButtonSubmit():
 	global button
 	button = Button(root, text="Submit")
 	button.pack()
 	button.bind('<Button-1>', getText)
+
+def buildButtonSave():
+	global buttonSave
+	buttonSave = Button(root, text="Save", state="disabled")
+	buttonSave.pack()
+	buttonSave.bind('<Button-1>', saveCard)
+
+def buildButtonSkip():
+	global buttonSkip
+	buttonSkip = Button(root, text="Skip", state="disabled")
+	buttonSkip.pack()
+	buttonSkip.bind('<Button-1>', next)
 
 def selectFile():
 	global vocab_dictionary
@@ -77,15 +91,31 @@ def getText(event):
 
     user_input = entry.get()
     print user_input
-
-    scoreInput(user_input, index)
-    
-    #clear entry box
+	
+	#clear entry box
     entry.delete(0, len(user_input))
-    nextWord()
+    
+    scoreInput(user_input, index)
+
+def saveCard(event):
+	print 'save'
+
+def next(event):
+	global button
+	global buttonSave
+	global buttonSkip
+
+	button.config(state='active')
+	buttonSave.config(state='disabled')
+	buttonSkip.config(state='disabled')
+
+	nextWord()
 
 def nextWord():
 	global index
+	global note_card_message
+
+	note_card_message.config(bg='lightgreen')
 	if index < len(english_list) - 1:
 		index += 1
 		note_card_text.set( english_list[index] )
@@ -96,20 +126,34 @@ def scoreInput(user_input, index):
 	global points
 	global english_list
 	global vocab_dictionary
-
+	
 	#test
 	print user_input + ' == ' + vocab_dictionary[ english_list[index] ]
 
 	if user_input == vocab_dictionary[ english_list[index] ]:
 		points += 1
+		nextWord()
 	else:
-		print getScore()
+		wrongTry()
+
+def wrongTry():
+	global note_card_message
+	global note_card_text
+	global button
+	global buttonSave
+	global buttonSkip
+
+	button.config(state='disabled')
+	note_card_message.config(bg='red')
+	note_card_text.set( 'Incorrect\nSave this card?' )
+
+	#prompt to save
+	buttonSave.config(state='active')
+	buttonSkip.config(state='active')
 
 def getScore():
 	global points
 	global vocab_dictionary
-
-	score = (points/len(vocab_dictionary))*100
 
 	return str(points) + '/' + str(len(vocab_dictionary)) + '\n{0:.0f}%'.format( ((1.0)*points/len(vocab_dictionary))*100 )
 
