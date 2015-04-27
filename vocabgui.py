@@ -79,6 +79,10 @@ def selectFile():
 	global points
 	points = 0
 
+	#Reset Missed Words
+	global missed_words
+	missed_words = {}
+
 	global english_list
 	english_list = list(vocab_dictionary.keys())
 
@@ -98,7 +102,13 @@ def getText(event):
     scoreInput(user_input, index)
 
 def saveCard(event):
-	print 'save'
+	global missed_words
+	global index
+	global english_list
+	global vocab_dictionary
+
+	missed_words[ english_list[index] ] = vocab_dictionary[ english_list[index] ]
+	next(event)
 
 def next(event):
 	global button
@@ -114,6 +124,7 @@ def next(event):
 def nextWord():
 	global index
 	global note_card_message
+	global missed_words
 
 	note_card_message.config(bg='lightgreen')
 	if index < len(english_list) - 1:
@@ -121,6 +132,9 @@ def nextWord():
 		note_card_text.set( english_list[index] )
 	else:
 		note_card_text.set( getScore() )
+		if len(missed_words) > 0:
+			writeMissedFile(missed_words)
+
 
 def scoreInput(user_input, index):
 	global points
