@@ -12,12 +12,18 @@ def selectFile():
 	vocab_dictionary = storeVocabWords(file)
 	vocab_dictionary = getShuffledDictionary(vocab_dictionary)
 
-	for i in vocab_dictionary:
-		print i
-		note_card_text.set(i)
-		#note_card_message.pack()
-		raw_input()
-	root.mainloop()
+	global index
+	index = 0
+
+	global english_list
+	english_list = list(vocab_dictionary.keys())
+
+	print english_list
+
+	#while index < len(english_list):
+	print english_list[index]
+	note_card_text.set( english_list[index] )
+	#root.mainloop()
 
 def buildLabelFileSelected():
 	global file_selected_label
@@ -41,8 +47,19 @@ def buildRadioButtonsFileNames():
 			justify = LEFT, 
 			padx = 20).pack()
 
+def getText(event):
+    global index
+    global english_list
+    print("Single Click, Button-l")
+    user_input = entry.get()
+    print user_input
+    entry.delete(0, len(user_input))
+    index += 1
+    note_card_text.set( english_list[index] )
+
 def submitWord():
 	print(entry.get())
+	global index
 
 def buildNoteCard():
 	global note_card_message
@@ -63,6 +80,7 @@ def buildButton():
 	global button
 	button = Button(root, text="Submit", command=submitWord)
 	button.pack()
+	button.bind('<Button-1>', getText)
 
 def listFileEntries(file_name):
 	file = openFile(file_name)
@@ -80,6 +98,8 @@ global root
 global file_list
 global vocab_dictionary
 global file_selected_flag
+global next_word
+global index
 
 root = Tk()
 var = IntVar()
