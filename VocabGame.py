@@ -137,8 +137,8 @@ class VocabGui:
 		global english_list
 		global vocab_dictionary
 
-		missed_words[ english_list[self.index] ] = vocab_dictionary[ english_list[self.index] ]
-		next(event)
+		self.missed_words[ self.english_list[self.index] ] = self.vocab_dictionary[ self.english_list[self.index] ]
+		self.next(event)
 
 	def next(self, event):
 		global button
@@ -162,8 +162,8 @@ class VocabGui:
 			self.note_card_text.set( self.english_list[self.index] )
 		else:
 			self.note_card_text.set( self.getScore() )
-			if len(missed_words) > 0:
-				self.writeMissedFile(self.missed_words)
+			if len(self.missed_words) > 0:
+				writeMissedFile(self.missed_words)
 
 
 	def scoreInput(self, user_input, index):
