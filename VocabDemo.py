@@ -1,0 +1,3 @@
+from VocabGame import *
+
+VocabGui()
