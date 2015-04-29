@@ -10,8 +10,8 @@ class VocabGui:
 
 		self.buildLabelFileSelected()
 		self.buildRadioButtonsFileNames()
+		self.buildButtonOpen()
 		self.buildNoteCard()
-
 
 		self.root.mainloop()
 
@@ -37,14 +37,18 @@ class VocabGui:
 					self.root, text=file_name,
 					padx = 20,
 					variable = self.var,
-					value = count, 
-					command = self.selectFile).pack(anchor=W)
+					value = count).pack(anchor=W)
 				count+=1
 		else:
 			Label(
 				root, "No Files found.", 
 				justify = LEFT, 
 				padx = 20).pack()
+
+	def buildButtonOpen(self):
+		self.buttonOpen = Button(self.root, text="Open")
+		self.buttonOpen.pack()
+		self.buttonOpen.bind('<Button-1>', self.selectFile)
 
 	def buildEntry(self):
 		self.entry = Entry(self.root, bd =5)
@@ -65,7 +69,8 @@ class VocabGui:
 		self.buttonSkip.pack()
 		self.buttonSkip.bind('<Button-1>', self.next)
 
-	def selectFile(self):
+	def selectFile(self, event):
+		self.buttonOpen.config(state="disabled")
 		selection = self.var.get()
 		self.file_selected_label.config(text = self.file_list[selection])
 		self.file_selected = self.file_list[selection]
@@ -119,7 +124,6 @@ class VocabGui:
 			self.note_card_text.set( self.getScore() )
 			if len(self.missed_words) > 0:
 				writeMissedFile(self.missed_words)
-
 
 	def scoreInput(self, user_input, index):
 		#test
