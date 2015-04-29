@@ -8,6 +8,7 @@ class VocabGui:
 		self.var = IntVar()
 		self.file_list = getFileList()
 
+		self.buildButtonAbout()
 		self.buildLabelFileSelected()
 		self.buildRadioButtonsFileNames()
 		self.buildButtonOpen()
@@ -62,6 +63,11 @@ class VocabGui:
 		self.buttonEnd.pack()
 		self.buttonEnd.bind('<Button-1>', self.endGame)
 
+	def buildButtonAbout(self):
+		self.buttonAbout = Button(self.root, text="About")
+		self.buttonAbout.pack()
+		self.buttonAbout.bind('<Button-1>', self.about)
+
 	def buildEntry(self):
 		self.entry = Entry(self.root, bd =5)
 		self.entry.pack(side=BOTTOM)
@@ -80,6 +86,12 @@ class VocabGui:
 		self.buttonSkip = Button(self.root, text="Skip", state="disabled")
 		self.buttonSkip.pack()
 		self.buttonSkip.bind('<Button-1>', self.next)
+
+	def about(self, event):
+		ABOUT_TEXT = "This is a notecard game."
+		toplevel = Toplevel()
+		label1 = Label(toplevel, text=ABOUT_TEXT, height=0, width=100)
+		label1.pack()
 
 	def selectFile(self, event):
 		self.buttonOpen.config(state="disabled")
