@@ -12,6 +12,7 @@ class VocabGui:
 		self.buildRadioButtonsFileNames()
 		self.buildButtonOpen()
 		self.buildButtonStart()
+		self.buildButtonEnd()
 		self.buildNoteCard()
 
 		self.root.mainloop()
@@ -55,6 +56,11 @@ class VocabGui:
 		self.buttonStart = Button(self.root, text="Start")
 		self.buttonStart.pack()
 		self.buttonStart.bind('<Button-1>', self.startGame)
+
+	def buildButtonEnd(self):
+		self.buttonEnd = Button(self.root, text="End")
+		self.buttonEnd.pack()
+		self.buttonEnd.bind('<Button-1>', self.endGame)
 
 	def buildEntry(self):
 		self.entry = Entry(self.root, bd =5)
@@ -103,6 +109,15 @@ class VocabGui:
 		print self.english_list[self.index]
 		self.note_card_text.set( self.english_list[self.index] )
 
+	def endGame(self, event):
+		self.buttonEnd.config(state='disabled')
+		self.button.config(state='disabled')
+		self.gameOver()
+
+	def gameOver(self):
+		self.note_card_text.set( self.getScore() )
+		if len(self.missed_words) > 0:
+			writeMissedFile(self.missed_words)
 
 	def getText(self, event):
 	    user_input = self.entry.get()
@@ -130,9 +145,7 @@ class VocabGui:
 			self.index += 1
 			self.note_card_text.set( self.english_list[self.index] )
 		else:
-			self.note_card_text.set( self.getScore() )
-			if len(self.missed_words) > 0:
-				writeMissedFile(self.missed_words)
+			self.gameOver()
 
 	def scoreInput(self, user_input, index):
 		#test
