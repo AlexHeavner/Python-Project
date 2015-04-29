@@ -11,6 +11,7 @@ class VocabGui:
 		self.buildLabelFileSelected()
 		self.buildRadioButtonsFileNames()
 		self.buildButtonOpen()
+		self.buildButtonStart()
 		self.buildNoteCard()
 
 		self.root.mainloop()
@@ -50,6 +51,11 @@ class VocabGui:
 		self.buttonOpen.pack()
 		self.buttonOpen.bind('<Button-1>', self.selectFile)
 
+	def buildButtonStart(self):
+		self.buttonStart = Button(self.root, text="Start")
+		self.buttonStart.pack()
+		self.buttonStart.bind('<Button-1>', self.startGame)
+
 	def buildEntry(self):
 		self.entry = Entry(self.root, bd =5)
 		self.entry.pack(side=BOTTOM)
@@ -75,6 +81,8 @@ class VocabGui:
 		self.file_selected_label.config(text = self.file_list[selection])
 		self.file_selected = self.file_list[selection]
 
+	def startGame(self, event):
+		self.buttonStart.config(state="disabled")
 		file = openFile(self.file_selected)
 
 		#load words from file into vocab dictionary
@@ -94,6 +102,7 @@ class VocabGui:
 
 		print self.english_list[self.index]
 		self.note_card_text.set( self.english_list[self.index] )
+
 
 	def getText(self, event):
 	    user_input = self.entry.get()
